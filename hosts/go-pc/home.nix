@@ -31,8 +31,7 @@
 
 	# Browser and Social
 	firefox
-	vesktop
-
+	
 	# Music and Video	
 	vlc
 

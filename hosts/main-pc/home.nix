@@ -36,7 +36,6 @@
 
 	# Browser and Social
 	firefox
-	equibop
 
 	# Music and Video
 	obs-studio

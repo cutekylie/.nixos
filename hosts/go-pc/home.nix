@@ -6,6 +6,7 @@
     [
       ../../modules/go-pc/home/gnome/gtk.nix 
       ../../modules/go-pc/home/spicetify.nix 
+      ../../modules/go-pc/home/discord.nix
     ];
 
   home.username = "user";

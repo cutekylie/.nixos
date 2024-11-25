@@ -11,12 +11,12 @@
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.qogir-theme;
-      name = "Qogir-Dark";
+      package = pkgs.materia-theme;
+      name = "Materia-dark-compact";
     };
     iconTheme = {
-      package = pkgs.qogir-icon-theme;
-      name = "Qogir-dark";
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
     };
     font = {
       name = "Cantarell";

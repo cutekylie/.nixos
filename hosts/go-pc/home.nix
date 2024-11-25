@@ -24,7 +24,7 @@
 	# System
 	eza
 	vscode
-	htop
+	btop
 	tldr
 	git
 	onlyoffice-desktopeditors
@@ -34,14 +34,7 @@
 	firefox
 	
 	# Music and Video	
-	vlc
-
-	# Games
-	lunar-client
-
-	# Wine
-	winetricks
-	wineWowPackages.waylandFull
+	pix
 
   ];
 

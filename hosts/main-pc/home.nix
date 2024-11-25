@@ -10,6 +10,7 @@
       ../../modules/main-pc/home/thunar.nix
       ../../modules/main-pc/home/spicetify.nix
       ../../modules/main-pc/home/kitty.nix
+      ../../modules/main-pc/home/kitty.nix
     ];
 
   home.username = "user";

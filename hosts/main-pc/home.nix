@@ -39,7 +39,7 @@
 
 	# Music and Video
 	obs-studio
-	vlc
+	pix
 
 	# Games
 	heroic	
@@ -50,7 +50,6 @@
 	# Editing
 	gimp-with-plugins
 	upscayl
-	pix
 
   ];
 

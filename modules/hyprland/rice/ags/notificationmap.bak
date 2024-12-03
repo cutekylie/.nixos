@@ -1,0 +1,1387 @@
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+
+--
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra popup notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Funzione per mostrare la finestra con le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+  notificationsBox.append(...bind(notifs));
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  clearButton.on("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.append(clearButton);
+  popupWindow.set_child(notificationsBox);
+  popupWindow.show_all();
+
+  return popupWindow;
+}
+
+
+--
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra popup notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Funzione per mostrare la finestra con le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+
+  // Aggiungi le notifiche alla finestra (qui usiamo notifs.get() per ottenere i widget)
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.append(notificationWidget); // Aggiungi ogni notifica al box
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  clearButton.on("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.append(clearButton);
+  popupWindow.set_child(notificationsBox);
+  popupWindow.show_all();
+
+  return popupWindow;
+}
+
+
+--
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra popup notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Funzione per mostrare la finestra con le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+
+  // Aggiungi le notifiche alla finestra (qui usiamo notifs.get() per ottenere i widget)
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.append(notificationWidget); // Aggiungi ogni notifica al box
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  
+  // Usa `connect` per ascoltare il segnale di click del bottone
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.append(clearButton);
+  popupWindow.set_child(notificationsBox);
+  popupWindow.show_all();
+
+  return popupWindow;
+}
+
+
+--
+
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra popup notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Funzione per mostrare la finestra con le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+  
+  // Aggiungi le notifiche alla finestra (qui usiamo notifs.get() per ottenere i widget)
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.append(notificationWidget); // Aggiungi ogni notifica al box
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+
+  // Usa `connect` per ascoltare il segnale di click del bottone
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.append(clearButton); // Aggiungi il bottone alla fine del box
+
+  popupWindow.set_child(notificationsBox);
+  popupWindow.show_all();
+
+  return popupWindow;
+}
+
+
+--
+
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra popup notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Funzione per mostrare la finestra con le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+  
+  // Aggiungi le notifiche alla finestra (qui usiamo notifs.get() per ottenere i widget)
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.append(notificationWidget); // Aggiungi ogni notifica al box
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+
+  // Usa `connect` per ascoltare il segnale di click del bottone
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.append(clearButton); // Aggiungi il bottone alla fine del box
+
+  popupWindow.set_child(notificationsBox);
+  popupWindow.show_all();
+
+  return popupWindow;
+}
+
+
+--
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  private constructor() {
+    const notifd = Notifd.get_default();
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  // Funzione per rimuovere tutte le notifiche
+  clearAll() {
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra popup notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Funzione per mostrare la finestra con le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+
+  // Aggiungi le notifiche alla finestra (qui usiamo notifs.get() per ottenere i widget)
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.pack_start(notificationWidget, false, false, 0); // Aggiungi ogni notifica al box
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+
+  // Usa `connect` per ascoltare il segnale di click del bottone
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.pack_start(clearButton, false, false, 0); // Aggiungi il bottone alla fine del box
+
+  popupWindow.set_child(notificationsBox);
+  popupWindow.show_all();
+
+  return popupWindow;
+}
+
+
+--
+
+
+// NotifiationMap gestisce il salvataggio delle notifiche
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        new Gtk.Label({ label: `Notifica ${id}` }) // Sostituisci con il tuo widget di notifica
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Pulisce tutte le notifiche
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra Popup delle notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Creazione della finestra per le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(300, 400);
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL });
+
+  // Aggiungi le notifiche alla finestra
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.pack_start(notificationWidget, false, false, 0);
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.pack_start(clearButton, false, false, 0);
+
+  // Aggiungi il Box alla finestra
+  popupWindow.add(notificationsBox); // Usato `add()` per GTK3
+
+  popupWindow.show_all(); // Mostra la finestra
+  return popupWindow;
+}
+
+
+--
+
+
+// NotifiationMap gestisce le notifiche
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      const notification = notifd.get_notification(id);
+      if (notification) {
+        const notificationBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 10 });
+        
+        // Titolo della notifica
+        const titleLabel = new Gtk.Label({ label: notification.summary });
+        notificationBox.pack_start(titleLabel, false, false, 0);
+
+        // Corpo della notifica
+        const bodyLabel = new Gtk.Label({ label: notification.body || "No content" });
+        notificationBox.pack_start(bodyLabel, false, false, 0);
+
+        this.set(id, notificationBox); // Salva nel map
+      }
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    // Rimuovi la notifica esistente se già presente
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Rimuove tutte le notifiche
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Finestra Popup delle notifiche
+function NotificationPopup(notifs: NotifiationMap) {
+  // Creazione della finestra per le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(400, 500); // Aumentato per permettere più contenuti
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 5 });
+
+  // Aggiungi le notifiche alla finestra
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.pack_start(notificationWidget, false, false, 0);
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.pack_start(clearButton, false, false, 0);
+
+  // Aggiungi il Box alla finestra
+  popupWindow.add(notificationsBox); // Usato `add()` per GTK3
+
+  popupWindow.show_all(); // Mostra la finestra
+  return popupWindow;
+}
+
+
+-
+
+
+// NotifiationMap gestisce le notifiche
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      const notification = notifd.get_notification(id);
+
+      if (notification) {
+        const notificationBox = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 10 });
+
+        // Aggiungi l'icona della notifica se disponibile
+        const icon = notification.icon;
+        if (icon) {
+          // Verifica se l'icona è valida (Pixbuf) e crea l'immagine
+          const image = new Gtk.Image({ pixbuf: icon });
+          notificationBox.pack_start(image, false, false, 0); // Aggiungi l'immagine a sinistra
+        }
+
+        // Titolo della notifica
+        const titleLabel = new Gtk.Label({ label: notification.summary });
+        notificationBox.pack_start(titleLabel, false, false, 0);
+
+        // Corpo della notifica
+        const bodyLabel = new Gtk.Label({ label: notification.body || "No content" });
+        notificationBox.pack_start(bodyLabel, false, false, 0);
+
+        // Aggiungi la notifica alla mappa
+        this.set(id, notificationBox);
+      }
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    // Rimuovi la notifica esistente se già presente
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Pulisce tutte le notifiche
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+function NotificationPopup(notifs: NotifiationMap) {
+  // Finestra popup per le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(400, 500); // Aumentato per permettere più contenuti
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 5 });
+
+  // Aggiungi tutte le notifiche
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget) => {
+    notificationsBox.pack_start(notificationWidget, false, false, 0);
+  });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.pack_start(clearButton, false, false, 0);
+
+  // Aggiungi il Box alla finestra
+  popupWindow.add(notificationsBox);
+
+  popupWindow.show_all(); // Mostra la finestra
+  return popupWindow;
+}
+
+
+--
+
+
+// NotifiationMap gestisce le notifiche
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      const notification = notifd.get_notification(id);
+
+      if (notification) {
+        const notificationBox = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 10 });
+
+        const icon = notification.icon;
+
+        if (icon) {
+            if (Gtk.isPixbuf(icon)) {
+                const image = new Gtk.Image({ pixbuf: icon });
+                notificationBox.pack_start(image, false, false, 0);
+            }
+          };
+        // Titolo della notifica
+        const titleLabel = new Gtk.Label({ label: notification.summary });
+        notificationBox.pack_start(titleLabel, false, false, 0);
+
+        // Corpo della notifica
+        const bodyLabel = new Gtk.Label({ label: notification.body || "No content" });
+        notificationBox.pack_start(bodyLabel, false, false, 0);
+
+        // Aggiungi la notifica alla mappa
+        this.set(id, notificationBox);
+      }
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    // Rimuovi la notifica esistente se già presente
+    this.map.get(key)?.destroy();
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private delete(key: number) {
+    this.map.get(key)?.destroy();
+    this.map.delete(key);
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Pulisce tutte le notifiche
+    this.map.forEach((widget, key) => this.delete(key));
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+function NotificationPopup(notifs: NotifiationMap) {
+  // Finestra popup per le notifiche
+  const popupWindow = new Gtk.Window();
+  popupWindow.set_title("Notifiche");
+  popupWindow.set_default_size(400, 500); // Aumentato per permettere più contenuti
+
+  // Box per le notifiche
+  const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 5 });
+
+  // Bottone per "Clear All"
+  const clearButton = new Gtk.Button({ label: "Clear All" });
+  clearButton.connect("clicked", () => {
+    notifs.clearAll(); // Pulisce tutte le notifiche
+  });
+
+  // Aggiungi il bottone alla finestra
+  notificationsBox.pack_start(clearButton, false, false, 0);
+
+  // Aggiungi tutte le notifiche
+  const notifications = notifs.get();
+  notifications.forEach((notificationWidget, index) => {
+    notificationsBox.pack_start(notificationWidget, false, false, 0);
+
+    // Aggiungi un separatore dopo ogni notifica (eccetto l'ultima)
+    if (index < notifications.length - 1) {
+      const separator = new Gtk.Separator({ orientation: Gtk.Orientation.HORIZONTAL });
+      notificationsBox.pack_start(separator, false, false, 5);
+    }
+  });
+
+  // Aggiungi il Box alla finestra
+  popupWindow.add(notificationsBox);
+
+  popupWindow.show_all(); // Mostra la finestra
+  return popupWindow;
+}
+
+
+--
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      const notification = notifd.get_notification(id);
+
+      if (notification) {
+        const notificationBox = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 10 });
+
+        const icon = notification.icon;
+
+        if (icon) {
+            if (Gtk.isPixbuf(icon)) {
+                const image = new Gtk.Image({ pixbuf: icon });
+                notificationBox.pack_start(image, false, false, 0);
+            }
+        }
+
+        // Titolo della notifica
+        const titleLabel = new Gtk.Label({ label: notification.summary });
+        notificationBox.pack_start(titleLabel, false, false, 0);
+
+        // Corpo della notifica
+        const bodyLabel = new Gtk.Label({ label: notification.body || "No content" });
+        notificationBox.pack_start(bodyLabel, false, false, 0);
+
+        // Aggiungi la notifica alla mappa
+        this.set(id, notificationBox);
+      }
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    // Rimuovi la notifica esistente se già presente
+    if (this.map.has(key)) {
+      this.removeFromUI(key);
+    }
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private removeFromUI(key: number) {
+    // Rimuovi il widget dalla UI senza distruggerlo immediatamente
+    const widget = this.map.get(key);
+    if (widget) {
+      widget.destroy();
+      this.map.delete(key);
+    }
+  }
+
+  private delete(key: number) {
+    const widget = this.map.get(key);
+    if (widget) {
+      widget.destroy();
+      this.map.delete(key);
+    }
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Pulisce tutte le notifiche
+    const keys = Array.from(this.map.keys());
+    keys.forEach(key => {
+      this.delete(key);
+    });
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+function NotificationPopup(notifs: NotifiationMap) {
+  // Variabile per tenere traccia dello stato della finestra (aperta o chiusa)
+  let isWindowOpen = false;
+  let popupWindow: Gtk.Window | null = null;
+
+  // Funzione per aprire e chiudere la finestra delle notifiche
+  const toggleWindow = () => {
+    if (isWindowOpen) {
+      if (popupWindow) {
+        popupWindow.destroy();
+        popupWindow = null;
+      }
+      isWindowOpen = false;
+    } else {
+      popupWindow = new Gtk.Window();
+      popupWindow.set_title("Notifiche");
+      popupWindow.set_default_size(400, 500); // Impostiamo la dimensione della finestra
+
+      // Box per le notifiche
+      const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 5 });
+
+      // Bottone per "Clear All"
+      const clearButton = new Gtk.Button({ label: "Clear All" });
+      clearButton.connect("clicked", () => {
+        notifs.clearAll();  // Pulisce tutte le notifiche
+      });
+
+      notificationsBox.pack_start(clearButton, false, false, 0);
+
+      const notifications = notifs.get();
+      notifications.forEach((notificationWidget, index) => {
+        notificationsBox.pack_start(notificationWidget, false, false, 0);
+
+        // Aggiungi un separatore dopo ogni notifica (eccetto l'ultima)
+        if (index < notifications.length - 1) {
+          const separator = new Gtk.Separator({ orientation: Gtk.Orientation.HORIZONTAL });
+          notificationsBox.pack_start(separator, false, false, 5);
+        }
+      });
+
+      popupWindow.add(notificationsBox);
+
+      // Gestire l'evento di chiusura con ESC
+      popupWindow.connect("key-press-event", (widget, event) => {
+        const keyval = event.keyval;
+        if (keyval === Gdk.KEY_Escape) {
+          toggleWindow(); // Chiudi la finestra se è aperta
+        }
+      });
+
+      // Mostra la finestra
+      popupWindow.show_all();
+      isWindowOpen = true;
+    }
+  };
+
+  // Pulsante per aprire/chiudere la finestra delle notifiche
+  const notificationButton = new Gtk.Button({ label: "Notifiche" });
+  notificationButton.connect("clicked", () => {
+    toggleWindow(); // Toggle della finestra delle notifiche
+  });
+
+  // Mostra il pulsante per aprire/chiudere la finestra
+  const mainWindow = new Gtk.Window();
+  mainWindow.set_title("App principale");
+  mainWindow.set_default_size(200, 100); // Impostiamo una finestra principale
+  mainWindow.add(notificationButton);
+  
+  mainWindow.show_all();
+
+  // Restituisci la finestra principale che contiene il pulsante
+  return mainWindow;
+}
+
+
+--
+
+
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      const notification = notifd.get_notification(id);
+
+      if (notification) {
+        const notificationBox = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 10 });
+
+        const icon = notification.icon;
+
+        if (icon) {
+            if (Gtk.isPixbuf(icon)) {
+                const image = new Gtk.Image({ pixbuf: icon });
+                notificationBox.pack_start(image, false, false, 0);
+            }
+        }
+
+        // Titolo della notifica
+        const titleLabel = new Gtk.Label({ label: notification.summary });
+        notificationBox.pack_start(titleLabel, false, false, 0);
+
+        // Corpo della notifica
+        const bodyLabel = new Gtk.Label({ label: notification.body || "No content" });
+        notificationBox.pack_start(bodyLabel, false, false, 0);
+
+        // Aggiungi la notifica alla mappa
+        this.set(id, notificationBox);
+      }
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    // Rimuovi la notifica esistente se già presente
+    if (this.map.has(key)) {
+      this.removeFromUI(key);
+    }
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private removeFromUI(key: number) {
+    // Rimuovi il widget dalla UI senza distruggerlo immediatamente
+    const widget = this.map.get(key);
+    if (widget) {
+      widget.destroy();
+      this.map.delete(key);
+    }
+  }
+
+  private delete(key: number) {
+    const widget = this.map.get(key);
+    if (widget) {
+      widget.destroy();
+      this.map.delete(key);
+    }
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Pulisce tutte le notifiche
+    const keys = Array.from(this.map.keys());
+    keys.forEach(key => {
+      this.delete(key);
+    });
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+function NotificationPopup(notifs: NotifiationMap) {
+  // Variabile per tenere traccia dello stato della finestra (aperta o chiusa)
+  let isWindowOpen = false;
+  let popupWindow: Gtk.Window | null = null;
+
+  // Funzione per aprire e chiudere la finestra delle notifiche
+  const toggleWindow = () => {
+    if (isWindowOpen) {
+      if (popupWindow) {
+        popupWindow.destroy();
+        popupWindow = null;
+      }
+      isWindowOpen = false;
+    } else {
+      popupWindow = new Gtk.Window();
+      popupWindow.set_title("Notifiche");
+      popupWindow.set_default_size(400, 500); // Impostiamo la dimensione della finestra
+
+      // Box per le notifiche
+      const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 5 });
+
+      // Bottone per "Clear All"
+      const clearButton = new Gtk.Button({ label: "Clear All" });
+      clearButton.connect("clicked", () => {
+        notifs.clearAll();  // Pulisce tutte le notifiche
+      });
+
+      notificationsBox.pack_start(clearButton, false, false, 0);
+
+      const notifications = notifs.get();
+      notifications.forEach((notificationWidget, index) => {
+        notificationsBox.pack_start(notificationWidget, false, false, 0);
+
+        // Aggiungi un separatore dopo ogni notifica (eccetto l'ultima)
+        if (index < notifications.length - 1) {
+          const separator = new Gtk.Separator({ orientation: Gtk.Orientation.HORIZONTAL });
+          notificationsBox.pack_start(separator, false, false, 5);
+        }
+      });
+
+      popupWindow.add(notificationsBox);
+
+      // Gestire l'evento di chiusura con ESC
+      popupWindow.connect("key-press-event", (widget, event) => {
+        const keyval = event.keyval;
+        if (keyval === Gdk.KEY_Escape) {
+          toggleWindow(); // Chiudi la finestra se è aperta
+        }
+      });
+
+      // Mostra la finestra
+      popupWindow.show_all();
+      isWindowOpen = true;
+    }
+  };
+
+  return toggleWindow;
+}
+
+
+--
+
+
+// Mappa per le notifiche
+class NotifiationMap {
+  private map: Map<number, Gtk.Widget> = new Map();
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  constructor() {
+    const notifd = Notifd.get_default();
+
+    // Ascolta gli eventi di notifica
+    notifd.connect("notified", (_, id) => {
+      const notification = notifd.get_notification(id);
+
+      if (notification) {
+        const notificationBox = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL, spacing: 10 });
+
+        const icon = notification.icon;
+
+        if (icon) {
+            if (Gtk.isPixbuf(icon)) {
+                const image = new Gtk.Image({ pixbuf: icon });
+                notificationBox.pack_start(image, false, false, 0);
+            }
+        }
+
+        // Titolo della notifica
+        const titleLabel = new Gtk.Label({ label: notification.summary });
+        notificationBox.pack_start(titleLabel, false, false, 0);
+
+        // Corpo della notifica
+        const bodyLabel = new Gtk.Label({ label: notification.body || "No content" });
+        notificationBox.pack_start(bodyLabel, false, false, 0);
+
+        // Aggiungi la notifica alla mappa
+        this.set(id, notificationBox);
+      }
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    // Rimuovi la notifica esistente se già presente
+    if (this.map.has(key)) {
+      this.removeFromUI(key);
+    }
+    this.map.set(key, value);
+    this.var.set([...this.map.values()]);
+  }
+
+  private removeFromUI(key: number) {
+    // Rimuovi il widget dalla UI senza distruggerlo immediatamente
+    const widget = this.map.get(key);
+    if (widget) {
+      widget.destroy();
+      this.map.delete(key);
+    }
+  }
+
+  private delete(key: number) {
+    const widget = this.map.get(key);
+    if (widget) {
+      widget.destroy();
+      this.map.delete(key);
+    }
+    this.var.set([...this.map.values()]);
+  }
+
+  clearAll() {
+    // Pulisce tutte le notifiche
+    const keys = Array.from(this.map.keys());
+    keys.forEach(key => {
+      this.delete(key);
+    });
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
+  }
+}
+
+// Popup delle notifiche, posizionato in basso a destra
+function NotificationPopup(notifs: NotifiationMap) {
+  let isWindowOpen = false;
+  let popupWindow: Gtk.Window | null = null;
+
+  // Funzione per aprire e chiudere la finestra delle notifiche
+  const toggleWindow = () => {
+    if (isWindowOpen) {
+      if (popupWindow) {
+        popupWindow.destroy();
+        popupWindow = null;
+      }
+      isWindowOpen = false;
+    } else {
+      popupWindow = new Gtk.Window();
+      popupWindow.set_title("Notifiche");
+      popupWindow.set_default_size(400, 300); // Impostiamo la dimensione della finestra
+
+      // Box per le notifiche
+      const notificationsBox = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 5 });
+
+      // Bottone per "Clear All"
+      const clearButton = new Gtk.Button({ label: "Clear All" });
+      clearButton.connect("clicked", () => {
+        notifs.clearAll();  // Pulisce tutte le notifiche
+      });
+
+      notificationsBox.pack_start(clearButton, false, false, 0);
+
+      const notifications = notifs.get();
+      notifications.forEach((notificationWidget, index) => {
+        notificationsBox.pack_start(notificationWidget, false, false, 0);
+
+        // Aggiungi un separatore dopo ogni notifica (eccetto l'ultima)
+        if (index < notifications.length - 1) {
+          const separator = new Gtk.Separator({ orientation: Gtk.Orientation.HORIZONTAL });
+          notificationsBox.pack_start(separator, false, false, 5);
+        }
+      });
+
+      popupWindow.add(notificationsBox);
+
+      // Gestire l'evento di chiusura con ESC
+      popupWindow.connect("key-press-event", (widget, event) => {
+        const keyval = event.keyval;
+        if (keyval === Gdk.KEY_Escape) {
+          toggleWindow(); // Chiudi la finestra se è aperta
+        }
+      });
+
+      // Mostra la finestra per garantirne l'esistenza
+      popupWindow.show_all();
+
+      // Posizionamento ancorato in basso a destra
+      const screen = Gdk.Screen.get_default();
+      const monitorIndex = screen.get_monitor_at_window(popupWindow.get_window());
+      const geometry = screen.get_monitor_geometry(monitorIndex);
+      const width = geometry.width;
+      const height = geometry.height;
+
+      const windowWidth = 420;
+      const windowHeight = 340;
+      popupWindow.move(width - windowWidth - 20, height - windowHeight - 20); // Aggiungi un margine
+
+      isWindowOpen = true;
+    }
+  };
+
+  return toggleWindow;
+}

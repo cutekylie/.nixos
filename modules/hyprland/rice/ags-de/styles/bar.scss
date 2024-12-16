@@ -1,0 +1,83 @@
+@use "variables.scss" as *;
+@use "sass:string";
+
+@function gtkalpha($c, $a) {
+  @return string.unquote("alpha(#{$c},#{$a})");
+}
+
+window.Bar {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  color: $fg;
+  font-size: 1.1em;
+  font-weight: 600;
+  font-family: "Comfortaa Bold", "Comfortaa";
+
+  & > centerbox {
+    background-color: $bg;
+    min-height: 35pt;
+    border: 0pt solid gtkalpha($fg, 0.1);
+    border-radius: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    padding: 0pt;
+    padding-left: 7pt;
+  }
+
+  button {
+    all: unset;
+  }
+
+  .Workspace {
+    background-color: gtkalpha($fg, 0.3);
+    border-radius: 100pt;
+    min-width: $workspace-padding;
+    min-height: $workspace-padding;
+    margin: 0 2.5pt;
+    transition: 0.1s linear;
+    font-size: 0;
+    &.active {
+      background-color: $fg;
+      border-radius: $radius * 2;
+      min-width: calc(15pt + $workspace-padding);
+      min-height: calc(2pt + $workspace-padding);
+    }
+    &.occupied {
+      background-color: gtkalpha($fg, 0.5);
+    }
+  }
+
+  .Media .Cover {
+    min-height: 1.2em;
+    min-width: 1.2em;
+    border-radius: $radius;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .Battery {
+    padding: unset;
+    margin-right: 10px;
+  }
+
+  .Battery label {
+    padding: 0;
+    margin: 0;
+  }
+
+  .SysTray button {
+    margin: 0 5px;
+  }
+
+  .focusedClient {
+    border-right: 1pt solid gtkalpha($fg, 0.1);
+    margin-right: 10pt;
+  }
+
+  .Clock {
+    margin-left: 10pt;
+    border-left: 1pt solid gtkalpha($fg, 0.1);
+  }
+}
